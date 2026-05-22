@@ -108,12 +108,12 @@ class ColonyAvatar extends StatelessWidget {
                       ? CachedNetworkImage(
                           imageUrl: imageUrl!,
                           fit: BoxFit.cover,
-                          placeholder: (_, __) => ColonyShimmer(
+                          placeholder: (_, _) => ColonyShimmer(
                             width: _diameter,
                             height: _diameter,
                             borderRadius: _diameter / 2,
                           ),
-                          errorWidget: (_, __, ___) => _buildPlaceholder(),
+                          errorWidget: (_, _, _) => _buildPlaceholder(),
                         )
                       : _buildPlaceholder(),
                 ),

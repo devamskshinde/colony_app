@@ -29,13 +29,39 @@ final webSocketClientProvider = Provider<WebSocketClient>((ref) {
   return WebSocketClient(config: config);
 });
 
-// Remote Config provider
-final remoteConfigProvider = StateProvider<RemoteConfig>((ref) {
-  return RemoteConfig.defaults();
-});
+// Remote Config provider (Notifier-based for Riverpod 3.x)
+final remoteConfigProvider =
+    NotifierProvider<RemoteConfigNotifier, RemoteConfig>(
+  RemoteConfigNotifier.new,
+);
+
+class RemoteConfigNotifier extends Notifier<RemoteConfig> {
+  @override
+  RemoteConfig build() => RemoteConfig.defaults();
+
+  void updateConfig(RemoteConfig config) => state = config;
+}
 
 // Auth state provider
-final isLoggedInProvider = StateProvider<bool>((ref) => false);
+final isLoggedInProvider =
+    NotifierProvider<IsLoggedInNotifier, bool>(IsLoggedInNotifier.new);
+
+class IsLoggedInNotifier extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  void setLoggedIn(bool value) => state = value;
+}
 
 // Current user ID provider
-final currentUserIdProvider = StateProvider<String?>((ref) => null);
+final currentUserIdProvider =
+    NotifierProvider<CurrentUserIdNotifier, String?>(
+  CurrentUserIdNotifier.new,
+);
+
+class CurrentUserIdNotifier extends Notifier<String?> {
+  @override
+  String? build() => null;
+
+  void setUserId(String? id) => state = id;
+}

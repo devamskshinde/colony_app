@@ -8,7 +8,7 @@ class SecureStorage {
 
   SecureStorage()
       : _storage = const FlutterSecureStorage(
-          aOptions: AndroidOptions(encryptedSharedPreferences: true),
+          aOptions: AndroidOptions(),
           iOptions: IOSOptions(
             accessibility: KeychainAccessibility.first_unlock_this_device,
           ),

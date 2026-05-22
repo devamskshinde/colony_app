@@ -61,7 +61,7 @@ class NotificationService {
     );
 
     await _localNotifications.initialize(
-      const InitializationSettings(
+      settings: InitializationSettings(
         android: androidSettings,
         iOS: iosSettings,
       ),
@@ -120,10 +120,10 @@ class NotificationService {
     );
 
     await _localNotifications.show(
-      id,
-      title,
-      body,
-      const NotificationDetails(android: androidDetails, iOS: iosDetails),
+      id: id,
+      title: title,
+      body: body,
+      notificationDetails: NotificationDetails(android: androidDetails, iOS: iosDetails),
       payload: payload,
     );
   }

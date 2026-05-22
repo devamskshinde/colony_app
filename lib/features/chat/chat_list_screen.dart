@@ -46,7 +46,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
             ? ListView.builder(
                 padding: const EdgeInsets.all(16),
                 itemCount: 8,
-                itemBuilder: (_, __) => const Padding(
+                itemBuilder: (_, _) => const Padding(
                   padding: EdgeInsets.only(bottom: 12),
                   child: Row(
                     children: [
