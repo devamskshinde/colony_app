@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Colony App</string>
+	<string>Colony</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -26,6 +26,37 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+
+	<!-- Location -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Colony needs your location to show nearby people, groups, and events in your neighborhood.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Colony uses your location to keep your radar active and notify you of nearby activity.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Colony uses your location to keep your radar active and notify you of nearby activity.</string>
+
+	<!-- Camera -->
+	<key>NSCameraUsageDescription</key>
+	<string>Colony needs camera access to take photos and videos for your posts and stories.</string>
+
+	<!-- Photos -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Colony needs photo library access to let you share photos and videos.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Colony needs access to save photos and videos to your library.</string>
+
+	<!-- Microphone -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Colony needs microphone access for video recording and voice messages.</string>
+
+	<!-- Face ID / Biometric -->
+	<key>NSFaceIDUsageDescription</key>
+	<string>Colony uses Face ID for secure and quick authentication.</string>
+
+	<!-- Contacts (optional) -->
+	<key>NSContactsUsageDescription</key>
+	<string>Colony can help you find friends who are already on the app.</string>
+
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -56,8 +87,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
