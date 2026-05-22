@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "66996944111",
+    "project_id": "colony-1",
+    "storage_bucket": "colony-1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66996944111:android:9b3d2b19d41ac97629af1a",
+        "android_client_info": {
+          "package_name": "com.colony.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy4m-3KcTn8WVTAx_GTNCoA6WM2t4QLQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66996944111:android:5f5d37f83bebcf6629af1a",
+        "android_client_info": {
+          "package_name": "com.colony.colony_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy4m-3KcTn8WVTAx_GTNCoA6WM2t4QLQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
