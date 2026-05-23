@@ -54,14 +54,29 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     // Check session after delay
     _checkSession();
+
+    // Safety: if stuck for 8 seconds, force navigate to onboarding
+    Future.delayed(const Duration(seconds: 8), () {
+      if (!mounted) return;
+      final authState = ref.read(authProvider);
+      if (authState.status == AuthStatus.initial ||
+          authState.status == AuthStatus.loading) {
+        context.go('/onboarding');
+      }
+    });
   }
 
   Future<void> _checkSession() async {
     await Future.delayed(const Duration(milliseconds: 2500));
     if (!mounted) return;
 
-    final authNotifier = ref.read(authProvider.notifier);
-    await authNotifier.checkSession();
+    try {
+      final authNotifier = ref.read(authProvider.notifier);
+      await authNotifier.checkSession();
+    } catch (e) {
+      // If session check fails entirely, treat as unauthenticated
+      debugPrint('Session check error: $e');
+    }
 
     if (!mounted) return;
 
