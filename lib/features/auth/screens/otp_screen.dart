@@ -7,6 +7,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../services/analytics_service.dart';
+import '../../../shared/widgets/animated_blob.dart';
 import '../providers/auth_provider.dart';
 
 /// OTP Verification Screen — 6 individual input boxes with timer
