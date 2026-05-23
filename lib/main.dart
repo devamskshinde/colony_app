@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'app.dart';
+import 'firebase_options.dart';
+import 'services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +22,14 @@ void main() async {
     systemNavigationBarColor: Color(0xFF12121A),
     systemNavigationBarIconBrightness: Brightness.light,
   ));
+
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // Initialize notifications
+  await NotificationService().initialize();
 
   runApp(
     const ProviderScope(

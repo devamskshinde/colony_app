@@ -86,7 +86,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     } else if (authState.status == AuthStatus.needsProfile) {
       context.go('/auth/setup');
     } else {
-      // Covers: unauthenticated, error, and any other non-auth state
       context.go('/onboarding');
     }
   }
