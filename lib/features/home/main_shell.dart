@@ -1,57 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
-import '../../services/analytics_service.dart';
-import '../home/home_screen.dart';
-import '../radar/radar_screen.dart';
-import '../stories/stories_screen.dart';
-import '../groups/groups_screen.dart';
-import '../discovery/discovery_screen.dart';
 
-/// Main Shell — Bottom navigation with animated tabs
-class MainShell extends StatefulWidget {
-  const MainShell({super.key});
+import '../../services/analytics_service.dart';
+import '../../shared/providers/app_providers.dart';
+
+/// Main Shell — Bottom navigation with go_router ShellRoute
+class MainShell extends ConsumerStatefulWidget {
+  final Widget child;
+  const MainShell({super.key, required this.child});
 
   @override
-  State<MainShell> createState() => _MainShellState();
+  ConsumerState<MainShell> createState() => _MainShellState();
 }
 
-class _MainShellState extends State<MainShell> {
+class _MainShellState extends ConsumerState<MainShell> {
   int _currentIndex = 0;
 
-  final _screens = const [
-    HomeScreen(),
-    RadarScreen(),
-    SizedBox(), // Stories placeholder (opens full screen)
-    GroupsScreen(),
-    DiscoveryScreen(),
+  static const _tabs = [
+    '/home/feed',
+    '/home/radar',
+    '/home/groups',
+    '/home/chat',
+    '/home/discover',
+    '/home/profile',
   ];
 
   void _onTabTapped(int index) {
     if (index == 2) {
-      // Stories opens full screen
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => const StoriesScreen()),
-      );
+      // Stories button - open stories screen
+      context.push('/stories');
       return;
     }
-
     HapticFeedback.lightImpact();
     setState(() => _currentIndex = index);
+    context.go(_tabs[index]);
+    AnalyticsService.trackScreen(_tabs[index].split('/').last);
+  }
 
-    final screenNames = ['home', 'radar', 'stories', 'groups', 'discovery'];
-    AnalyticsService.trackScreen(screenNames[index]);
+  int _indexFromPath(String path) {
+    if (path.startsWith('/home/feed') || path == '/home') return 0;
+    if (path.startsWith('/home/radar')) return 1;
+    if (path.startsWith('/home/groups')) return 2;
+    if (path.startsWith('/home/chat')) return 3;
+    if (path.startsWith('/home/discover')) return 4;
+    if (path.startsWith('/home/profile')) return 5;
+    return 0;
   }
 
   @override
   Widget build(BuildContext context) {
+    final config = ref.watch(remoteConfigProvider);
+    final currentPath = GoRouterState.of(context).matchedLocation;
+    _currentIndex = _indexFromPath(currentPath);
+
+    // Check if features are enabled
+    final hasRadar = config.isFeatureEnabled('feature_radar', 'free');
+    final hasGroups = config.isFeatureEnabled('feature_groups', 'free');
+    final hasChat = config.isFeatureEnabled('feature_chat', 'free');
+    final hasDiscovery = config.isFeatureEnabled('feature_discovery', 'free');
+
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: widget.child,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: AppColors.bgSecondary.withValues(alpha: 0.95),
@@ -66,13 +79,15 @@ class _MainShellState extends State<MainShell> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home'),
-                _buildNavItem(
-                    1, Icons.radar_outlined, Icons.radar, 'Radar'),
+                if (hasRadar)
+                  _buildNavItem(1, Icons.radar_outlined, Icons.radar, 'Radar'),
                 _buildStoriesButton(),
-                _buildNavItem(
-                    3, Icons.group_outlined, Icons.group, 'Groups'),
-                _buildNavItem(
-                    4, Icons.explore_outlined, Icons.explore, 'Discover'),
+                if (hasGroups)
+                  _buildNavItem(3, Icons.group_outlined, Icons.group, 'Groups'),
+                if (hasChat)
+                  _buildNavItem(4, Icons.chat_bubble_outline, Icons.chat_bubble, 'Chat'),
+                if (hasDiscovery)
+                  _buildNavItem(5, Icons.explore_outlined, Icons.explore, 'Discover'),
               ],
             ),
           ),

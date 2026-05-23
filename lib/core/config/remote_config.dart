@@ -60,6 +60,11 @@ class RemoteConfig {
     'max_feed_age_hours': 48,
     'trending_threshold': 10,
     'nsfw_filter_enabled': true,
+
+    // Profile
+    'profile_max_bio_length': 150,
+    'interests_min_count': 3,
+    'interests_max_count': 15,
   };
 
   T getValue<T>(String key, {T? fallback}) {
