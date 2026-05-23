@@ -65,13 +65,13 @@ class AuthNotifier extends Notifier<AuthState> {
 
   /// Check if user has valid session (for splash screen)
   Future<void> checkSession() async {
-    final refreshToken = await _storage.read(StorageKeys.refreshToken);
-    if (refreshToken == null) {
-      state = state.copyWith(status: AuthStatus.unauthenticated);
-      return;
-    }
-
     try {
+      final refreshToken = await _storage.read(StorageKeys.refreshToken);
+      if (refreshToken == null || refreshToken.isEmpty) {
+        state = state.copyWith(status: AuthStatus.unauthenticated);
+        return;
+      }
+
       final response = await _api.refreshToken(refreshToken);
       await _storage.saveTokens(
         accessToken: response.accessToken,
@@ -84,7 +84,10 @@ class AuthNotifier extends Notifier<AuthState> {
       );
       AnalyticsService.trackEvent('session_restored');
     } catch (e) {
-      await _storage.clearTokens();
+      // Always set unauthenticated on ANY error — never leave as 'initial'
+      try {
+        await _storage.clearTokens();
+      } catch (_) {}
       state = state.copyWith(status: AuthStatus.unauthenticated);
     }
   }
