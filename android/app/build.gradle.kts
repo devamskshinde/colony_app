@@ -25,7 +25,7 @@ android {
 
     defaultConfig {
         applicationId = "com.colony.colony_app"
-        minSdk = 21
+        minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
