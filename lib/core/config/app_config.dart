@@ -40,10 +40,10 @@ class AppConfig {
   // ─── Staging: your VPS IP ────────────────────────────────
   static AppConfig get staging => const AppConfig(
         environment: Environment.staging,
-        apiBaseUrl: 'http://49.43.1.100:5000/v1',
-        wsBaseUrl: 'ws://49.43.1.100:5000',
-        cdnBaseUrl: 'http://49.43.1.100:5000',
-        socketUrl: 'http://49.43.1.100:5000',
+        apiBaseUrl: 'https://adjacent-earned-often-lead.trycloudflare.com/v1',
+        wsBaseUrl: 'wss://adjacent-earned-often-lead.trycloudflare.com',
+        cdnBaseUrl: 'https://adjacent-earned-often-lead.trycloudflare.com',
+        socketUrl: 'https://adjacent-earned-often-lead.trycloudflare.com',
         enableLogging: true,
         enableAnalytics: true,
         enableCrashReporting: false,
