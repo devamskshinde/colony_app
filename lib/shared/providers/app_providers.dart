@@ -9,7 +9,7 @@ import '../../core/security/secure_storage.dart';
 
 // AppConfig provider
 final appConfigProvider = Provider<AppConfig>((ref) {
-  return AppConfig.production; // Switch to .dev/.staging as needed
+  return AppConfig.staging; // Points to your VPS: 49.43.1.100:5000
 });
 
 // Secure Storage provider

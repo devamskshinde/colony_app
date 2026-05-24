@@ -23,28 +23,33 @@ class AppConfig {
     this.enableCrashReporting = true,
   });
 
+  // ─── Development: point to your local backend ────────────
+  // Change this IP to your machine's IP when testing on a real device
+  // Run `hostname -I` in WSL to find it, or use your public IP
   static AppConfig get dev => const AppConfig(
         environment: Environment.development,
-        apiBaseUrl: 'https://dev-api.colonyapp.in/v1',
-        wsBaseUrl: 'wss://dev-ws.colonyapp.in',
-        cdnBaseUrl: 'https://dev-cdn.colonyapp.in',
-        socketUrl: 'https://dev-socket.colonyapp.in',
+        apiBaseUrl: 'http://10.0.2.2:5000/v1', // Android emulator localhost
+        wsBaseUrl: 'ws://10.0.2.2:5000',
+        cdnBaseUrl: 'http://10.0.2.2:5000',
+        socketUrl: 'http://10.0.2.2:5000',
         enableLogging: true,
         enableAnalytics: false,
         enableCrashReporting: false,
       );
 
+  // ─── Staging: your VPS IP ────────────────────────────────
   static AppConfig get staging => const AppConfig(
         environment: Environment.staging,
-        apiBaseUrl: 'https://staging-api.colonyapp.in/v1',
-        wsBaseUrl: 'wss://staging-ws.colonyapp.in',
-        cdnBaseUrl: 'https://staging-cdn.colonyapp.in',
-        socketUrl: 'https://staging-socket.colonyapp.in',
+        apiBaseUrl: 'http://49.43.1.100:5000/v1',
+        wsBaseUrl: 'ws://49.43.1.100:5000',
+        cdnBaseUrl: 'http://49.43.1.100:5000',
+        socketUrl: 'http://49.43.1.100:5000',
         enableLogging: true,
         enableAnalytics: true,
-        enableCrashReporting: true,
+        enableCrashReporting: false,
       );
 
+  // ─── Production: real domain ─────────────────────────────
   static AppConfig get production => const AppConfig(
         environment: Environment.production,
         apiBaseUrl: 'https://api.colonyapp.in/v1',
