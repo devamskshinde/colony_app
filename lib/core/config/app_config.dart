@@ -40,10 +40,10 @@ class AppConfig {
   // ─── Staging: your VPS IP ────────────────────────────────
   static AppConfig get staging => const AppConfig(
         environment: Environment.staging,
-        apiBaseUrl: 'https://supplied-emerald-twelve-stereo.trycloudflare.com/v1',
-        wsBaseUrl: 'wss://supplied-emerald-twelve-stereo.trycloudflare.com',
-        cdnBaseUrl: 'https://supplied-emerald-twelve-stereo.trycloudflare.com',
-        socketUrl: 'https://supplied-emerald-twelve-stereo.trycloudflare.com',
+        apiBaseUrl: 'https://gates-dana-egg-mae.trycloudflare.com/v1',
+        wsBaseUrl: 'wss://gates-dana-egg-mae.trycloudflare.com',
+        cdnBaseUrl: 'https://gates-dana-egg-mae.trycloudflare.com',
+        socketUrl: 'https://gates-dana-egg-mae.trycloudflare.com',
         enableLogging: true,
         enableAnalytics: true,
         enableCrashReporting: false,
