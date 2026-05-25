@@ -40,10 +40,10 @@ class AppConfig {
   // ─── Staging: your VPS IP ────────────────────────────────
   static AppConfig get staging => const AppConfig(
         environment: Environment.staging,
-        apiBaseUrl: 'https://gates-dana-egg-mae.trycloudflare.com/v1',
-        wsBaseUrl: 'wss://gates-dana-egg-mae.trycloudflare.com',
-        cdnBaseUrl: 'https://gates-dana-egg-mae.trycloudflare.com',
-        socketUrl: 'https://gates-dana-egg-mae.trycloudflare.com',
+        apiBaseUrl: 'https://lucy-cost-cal-electron.trycloudflare.com/v1',
+        wsBaseUrl: 'wss://lucy-cost-cal-electron.trycloudflare.com',
+        cdnBaseUrl: 'https://lucy-cost-cal-electron.trycloudflare.com',
+        socketUrl: 'https://lucy-cost-cal-electron.trycloudflare.com',
         enableLogging: true,
         enableAnalytics: true,
         enableCrashReporting: false,
