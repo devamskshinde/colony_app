@@ -260,6 +260,22 @@ class _PhoneScreenState extends ConsumerState<PhoneScreen>
                     .fadeIn(duration: 400.ms, delay: 300.ms)
                     .slideY(begin: 0.2, end: 0),
 
+                // Or login with email
+                Center(
+                  child: GestureDetector(
+                    onTap: () => context.go('/auth/email'),
+                    child: Text(
+                      'Or login with email',
+                      style: AppTypography.bodyMedium.copyWith(
+                        color: AppColors.colonyViolet,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                )
+                    .animate()
+                    .fadeIn(duration: 400.ms, delay: 400.ms),
+
                 const Spacer(flex: 2),
 
                 // Terms

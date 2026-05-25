@@ -248,6 +248,92 @@ class AuthNotifier extends Notifier<AuthState> {
   void resetToPhone() {
     state = const AuthState();
   }
+
+  /// Login with email + password
+  Future<void> loginEmail({required String email, required String password}) async {
+    state = state.copyWith(isLoading: true, errorMessage: null);
+    AnalyticsService.trackEvent('email_login_attempt');
+
+    try {
+      final response = await _api.loginEmail(email: email, password: password);
+
+      if (response.accessToken != null) {
+        await _storage.saveTokens(
+          accessToken: response.accessToken!,
+          refreshToken: response.refreshToken ?? '',
+        );
+      }
+
+      if (response.user != null && response.user!['id'] != null) {
+        await _storage.saveUserId(response.user!['id'] as String);
+      }
+
+      state = state.copyWith(
+        isLoading: false,
+        status: AuthStatus.authenticated,
+        user: response.user,
+      );
+      ref.read(isLoggedInProvider.notifier).setLoggedIn(true);
+      if (response.user?['id'] != null) {
+        ref.read(currentUserIdProvider.notifier).setUserId(response.user!['id'] as String);
+      }
+      AnalyticsService.trackEvent('email_login_success');
+    } on AppException catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        status: AuthStatus.error,
+        errorMessage: e.message,
+      );
+      AnalyticsService.trackError('email_login_failed', properties: {'error': e.message});
+    }
+  }
+
+  /// Register with email + password
+  Future<void> registerEmail({
+    required String email,
+    required String password,
+    required String displayName,
+  }) async {
+    state = state.copyWith(isLoading: true, errorMessage: null);
+    AnalyticsService.trackEvent('email_register_attempt');
+
+    try {
+      final response = await _api.registerEmail(
+        email: email,
+        password: password,
+        displayName: displayName,
+      );
+
+      if (response.accessToken != null) {
+        await _storage.saveTokens(
+          accessToken: response.accessToken!,
+          refreshToken: response.refreshToken ?? '',
+        );
+      }
+
+      if (response.user != null && response.user!['id'] != null) {
+        await _storage.saveUserId(response.user!['id'] as String);
+      }
+
+      state = state.copyWith(
+        isLoading: false,
+        status: AuthStatus.authenticated,
+        user: response.user,
+      );
+      ref.read(isLoggedInProvider.notifier).setLoggedIn(true);
+      if (response.user?['id'] != null) {
+        ref.read(currentUserIdProvider.notifier).setUserId(response.user!['id'] as String);
+      }
+      AnalyticsService.trackEvent('email_register_success');
+    } on AppException catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        status: AuthStatus.error,
+        errorMessage: e.message,
+      );
+      AnalyticsService.trackError('email_register_failed', properties: {'error': e.message});
+    }
+  }
 }
 
 // ─── Auth Provider ──────────────────────────────────────────────

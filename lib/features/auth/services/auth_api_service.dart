@@ -86,6 +86,43 @@ class AuthApiService {
       // Logout should always succeed locally even if server fails
     }
   }
+
+  /// Login with email + password
+  Future<VerifyOtpResponse> loginEmail({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '/auth/login-email',
+        data: {'email': email, 'password': password},
+      );
+      return VerifyOtpResponse.fromJson(response.data as Map<String, dynamic>);
+    } on AppException {
+      rethrow;
+    }
+  }
+
+  /// Register with email + password
+  Future<VerifyOtpResponse> registerEmail({
+    required String email,
+    required String password,
+    required String displayName,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '/auth/register-email',
+        data: {
+          'email': email,
+          'password': password,
+          'displayName': displayName,
+        },
+      );
+      return VerifyOtpResponse.fromJson(response.data as Map<String, dynamic>);
+    } on AppException {
+      rethrow;
+    }
+  }
 }
 
 // ─── Response Models ────────────────────────────────────────────

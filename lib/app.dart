@@ -5,6 +5,7 @@ import 'core/theme/app_theme.dart';
 import 'features/auth/screens/splash_screen.dart';
 import 'features/auth/screens/onboarding_screen.dart';
 import 'features/auth/screens/phone_screen.dart';
+import 'features/auth/screens/email_login_screen.dart';
 import 'features/auth/screens/otp_screen.dart';
 import 'features/auth/screens/profile_setup_screen.dart';
 import 'features/home/main_shell.dart';
@@ -34,6 +35,10 @@ class ColonyApp extends ConsumerWidget {
         GoRoute(
           path: '/auth/phone',
           builder: (context, state) => const PhoneScreen(),
+        ),
+        GoRoute(
+          path: '/auth/email',
+          builder: (context, state) => const EmailLoginScreen(),
         ),
         GoRoute(
           path: '/auth/otp',

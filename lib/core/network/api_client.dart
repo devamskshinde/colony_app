@@ -5,7 +5,7 @@ import '../constants/api_constants.dart';
 import '../errors/error_handler.dart';
 import 'interceptors/auth_interceptor.dart';
 import 'interceptors/logging_interceptor.dart';
-import 'interceptors/security_interceptor.dart';
+// import 'interceptors/security_interceptor.dart'; // Disabled — placeholder key
 
 /// Colony API Client
 /// Central Dio-based HTTP client with interceptors
@@ -29,7 +29,9 @@ class ApiClient {
 
     _dio.interceptors.addAll([
       AuthInterceptor(),
-      SecurityInterceptor(),
+      // SecurityInterceptor disabled — uses placeholder key that doesn't match
+      // backend secret. Re-enable when proper key exchange is implemented.
+      // SecurityInterceptor(),
       if (config.enableLogging) LoggingInterceptor(),
     ]);
   }
