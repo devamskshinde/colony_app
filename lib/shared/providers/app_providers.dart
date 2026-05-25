@@ -4,6 +4,7 @@ import '../../core/config/remote_config.dart';
 import '../../core/network/api_client.dart';
 import '../../core/network/websocket_client.dart';
 import '../../core/security/secure_storage.dart';
+import '../../features/user/services/user_api_service.dart';
 
 /// App-level providers
 
@@ -29,17 +30,65 @@ final webSocketClientProvider = Provider<WebSocketClient>((ref) {
   return WebSocketClient(config: config);
 });
 
-// Remote Config provider (Notifier-based for Riverpod 3.x)
+// User API Service provider
+final userApiServiceProvider = Provider<UserApiService>((ref) {
+  final apiClient = ref.watch(apiClientProvider);
+  return UserApiService(apiClient);
+});
+
+// User profile from backend
+final userProfileProvider = FutureProvider<Map<String, dynamic>?>((ref) async {
+  try {
+    final userService = ref.read(userApiServiceProvider);
+    return await userService.getMyProfile();
+  } catch (e) {
+    return null;
+  }
+});
+
+// Nearby users from backend
+final nearbyUsersProvider = FutureProvider<List<dynamic>>((ref) async {
+  try {
+    final userService = ref.read(userApiServiceProvider);
+    return await userService.getNearby(radius: 5, limit: 20);
+  } catch (e) {
+    return [];
+  }
+});
+
+// Remote Config provider — fetches from backend, falls back to defaults
 final remoteConfigProvider =
-    NotifierProvider<RemoteConfigNotifier, RemoteConfig>(
+    AsyncNotifierProvider<RemoteConfigNotifier, RemoteConfig>(
   RemoteConfigNotifier.new,
 );
 
-class RemoteConfigNotifier extends Notifier<RemoteConfig> {
+class RemoteConfigNotifier extends AsyncNotifier<RemoteConfig> {
   @override
-  RemoteConfig build() => RemoteConfig.defaults();
+  Future<RemoteConfig> build() async {
+    try {
+      final apiClient = ref.read(apiClientProvider);
+      final response = await apiClient.get('/config');
+      final data = response.data as Map<String, dynamic>;
+      final configs = data['data'] as List<dynamic>? ?? [];
 
-  void updateConfig(RemoteConfig config) => state = config;
+      // Build config map from backend
+      final configMap = <String, dynamic>{};
+      for (final item in configs) {
+        configMap[item['key'] as String] = item['value'];
+      }
+
+      // Merge with defaults (backend values override defaults)
+      return RemoteConfig.withValues(configMap);
+    } catch (e) {
+      // If backend unreachable, use cached or defaults
+      return RemoteConfig.defaults();
+    }
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() => build());
+  }
 }
 
 // Auth state provider

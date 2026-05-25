@@ -13,9 +13,19 @@ class RemoteConfig {
   }) : _values = values;
 
   factory RemoteConfig.defaults() => RemoteConfig(
-        values: _defaultValues,
+        values: Map.from(_defaultValues),
         lastFetched: DateTime.fromMillisecondsSinceEpoch(0),
       );
+
+  /// Create config with backend values merged over defaults
+  factory RemoteConfig.withValues(Map<String, dynamic> backendValues) {
+    final merged = Map<String, dynamic>.from(_defaultValues);
+    merged.addAll(backendValues);
+    return RemoteConfig(
+      values: merged,
+      lastFetched: DateTime.now(),
+    );
+  }
 
   static final Map<String, dynamic> _defaultValues = {
     // Feature flags

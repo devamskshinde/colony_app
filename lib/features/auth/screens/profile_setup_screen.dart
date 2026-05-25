@@ -11,6 +11,7 @@ import '../../../core/theme/app_gradients.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/theme/app_animations.dart';
 import '../../../services/analytics_service.dart';
+import '../../../core/config/remote_config.dart';
 import '../../../shared/providers/app_providers.dart';
 import '../../../shared/widgets/colony_button.dart';
 import '../../../shared/widgets/colony_text_field.dart';
@@ -159,7 +160,8 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final config = ref.watch(remoteConfigProvider);
+    final configAsync = ref.watch(remoteConfigProvider);
+    final config = configAsync.whenOrNull(data: (c) => c) ?? RemoteConfig.defaults();
     final authState = ref.watch(authProvider);
 
     // Navigate on success
