@@ -40,7 +40,7 @@ class AppConfig {
   // ─── Staging: your VPS IP ────────────────────────────────
   static AppConfig get staging => const AppConfig(
         environment: Environment.staging,
-        apiBaseUrl: 'https://economies-spine-replaced-exchanges.trycloudflare.com/v1',
+        apiBaseUrl: 'https://economies-spine-replaced-exchanges.trycloudflare.com/api/v1',
         wsBaseUrl: 'wss://economies-spine-replaced-exchanges.trycloudflare.com',
         cdnBaseUrl: 'https://economies-spine-replaced-exchanges.trycloudflare.com',
         socketUrl: 'https://economies-spine-replaced-exchanges.trycloudflare.com',

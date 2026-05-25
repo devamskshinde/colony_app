@@ -12,7 +12,7 @@ class ApiConstants {
   // ─── Auth Endpoints ─────────────────────────────────────────
   static const String sendOtp = '/auth/send-otp';
   static const String verifyOtp = '/auth/verify-otp';
-  static const String refreshToken = '/auth/refresh-token';
+  static const String refreshToken = '/auth/refresh';
   static const String logout = '/auth/logout';
   static const String deleteAccount = '/auth/delete-account';
 
