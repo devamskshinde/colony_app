@@ -16,7 +16,7 @@ class AuthInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     final token = await _storage.read(key: StorageKeys.accessToken);
-    if (token != null) {
+    if (token != null && token.isNotEmpty) {
       options.headers[ApiConstants.authHeader] = 'Bearer $token';
     }
 
@@ -29,7 +29,11 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    if (err.response?.statusCode == 401) {
+    // Only attempt token refresh if the original request had an auth header
+    // (unauthenticated endpoints like send-otp should never trigger refresh)
+    final hadAuthHeader = err.requestOptions.headers[ApiConstants.authHeader] != null;
+
+    if (err.response?.statusCode == 401 && hadAuthHeader) {
       if (!_isRefreshing) {
         _isRefreshing = true;
         try {
